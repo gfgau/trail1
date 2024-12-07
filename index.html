@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeeksforGeeks Student Chapter - Anurag University</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 10px;
+            z-index: 10;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav li {
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .section {
+            padding: 50px;
+            margin-top: 50px;
+        }
+        .events, .chapter-info, .team, .contact {
+            text-align: center;
+            background-color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .events:hover, .chapter-info:hover, .team:hover, .contact:hover {
+            transform: scale(1.05);
+        }
+        .event-list, .team-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .event, .team-member {
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            width: 250px;
+            transition: transform 0.3s;
+        }
+        .event:hover, .team-member:hover {
+            transform: translateY(-10px);
+        }
+        .moving-shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            border-radius: 50%;
+            animation: moveShape 5s linear infinite;
+        }
+        @keyframes moveShape {
+            0% { top: 10%; left: 0%; }
+            50% { top: 50%; left: 50%; }
+            100% { top: 90%; left: 100%; }
+        }
+        .form-input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li onclick="scrollToSection('events')">Upcoming Events</li>
+            <li onclick="scrollToSection('chapter-info')">About Our Chapter</li>
+            <li onclick="scrollToSection('team')">Our Team</li>
+            <li onclick="scrollToSection('contact')">Contact Us</li>
+        </ul>
+    </nav>
+
+    <!-- Moving Green Shape -->
+    <div class="moving-shape"></div>
+
+    <!-- Events Section -->
+    <section id="events" class="section events">
+        <h2>Upcoming Events</h2>
+        <div class="event-list">
+            <div class="event">
+                <h3>Data Science Workshop</h3>
+                <p>Join us for a hands-on data science workshop. Register now!</p>
+                <button class="btn" onclick="showForm('Data Science Workshop')">Register</button>
+            </div>
+            <div class="event">
+                <h3>AI & ML Seminar</h3>
+                <p>Explore the world of AI & ML with industry experts. Register today!</p>
+                <button class="btn" onclick="showForm('AI & ML Seminar')">Register</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter Info Section -->
+    <section id="chapter-info" class="section chapter-info">
+        <h2>About Our Chapter</h2>
+        <p>DATUM is a club under the Department of Data Science at Anurag University, focused on exploring and providing knowledge about various tools and techniques in data science.</p>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section team">
+        <h2>Our Team</h2>
+        <div class="team-list">
+            <div class="team-member">
+                <h3>John Doe</h3>
+                <p>President</p>
+            </div>
+            <div class="team-member">
+                <h3>Jane Smith</h3>
+                <p>Vice President</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <h2>Contact Us</h2>
+        <p>Email: datum@anurag.edu</p>
+        <p>Phone: 123-456-7890</p>
+    </section>
+
+    <!-- Registration Form -->
+    <div id="registration-form" style="display:none; padding: 20px; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); width: 300px; border-radius: 8px;">
+        <h3>Register for Event: <span id="event-name"></span></h3>
+        <input class="form-input" type="text" id="name" placeholder="Name">
+        <input class="form-input" type="text" id="roll" placeholder="Roll Number">
+        <input class="form-input" type="text" id="branch" placeholder="Branch">
+        <input class="form-input" type="text" id="section" placeholder="Section">
+        <input class="form-input" type="text" id="phone" placeholder="Phone Number">
+        <button class="btn" onclick="submitForm()">Submit</button>
+    </div>
+
+    <script>
+        // Store data in script
+        let eventData = [];
+
+        // Show the registration form
+        function showForm(eventName) {
+            document.getElementById("event-name").innerText = eventName;
+            document.getElementById("registration-form").style.display = "block";
+        }
+
+        // Submit form data and store it
+        function submitForm() {
+            const name = document.getElementById("name").value;
+            const roll = document.getElementById("roll").value;
+            const branch = document.getElementById("branch").value;
+            const section = document.getElementById("section").value;
+            const phone = document.getElementById("phone").value;
+
+            if (name && roll && branch && section && phone) {
+                // Store data
+                eventData.push({ name, roll, branch, section, phone });
+                alert("Data stored successfully!");
+
+                // Hide the form
+                document.getElementById("registration-form").style.display = "none";
+
+                // Redirect to WhatsApp group
+                window.location.href = "https://chat.whatsapp.com/ChlE2jnhhXh23nw566V7j6";
+            } else {
+                alert("Please fill all fields.");
+            }
+        }
+
+        // Scroll to specific section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+</body>
+</html>
