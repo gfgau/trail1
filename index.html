@@ -9,82 +9,116 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #121212;
+            color: #fff;
             overflow-x: hidden;
         }
+
         nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #333;
-            padding: 10px;
+            background-color: #1e1e1e;
+            padding: 10px 0;
             z-index: 10;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
+
         nav ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
         }
+
         nav li {
+            margin: 0 15px;
             color: white;
-            padding: 10px 20px;
             cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
+
+        nav li:hover {
+            background-color: #4CAF50;
+        }
+
         .section {
-            padding: 50px;
-            margin-top: 50px;
+            padding: 80px 20px;
         }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
         .events, .chapter-info, .team, .contact {
             text-align: center;
-            background-color: white;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            background-color: #1e1e1e;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+
         .events:hover, .chapter-info:hover, .team:hover, .contact:hover {
             transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.8);
         }
+
         .event-list, .team-list {
             display: flex;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
         }
+
         .event, .team-member {
-            background-color: #e0e0e0;
+            background-color: #333;
+            color: #fff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             width: 250px;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
         }
+
         .event:hover, .team-member:hover {
             transform: translateY(-10px);
+            background-color: #4CAF50;
         }
+
         .moving-shape {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: green;
+            background-color: #4CAF50;
             border-radius: 50%;
             animation: moveShape 5s linear infinite;
         }
+
         @keyframes moveShape {
             0% { top: 10%; left: 0%; }
             50% { top: 50%; left: 50%; }
             100% { top: 90%; left: 100%; }
         }
+
         .form-input {
             margin: 10px 0;
             padding: 10px;
-            width: 80%;
+            width: 90%;
             border-radius: 5px;
             border: 1px solid #ddd;
+            background-color: #fff;
+            color: #000;
         }
+
         .btn {
             background-color: #4CAF50;
             color: white;
@@ -92,10 +126,26 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
+
         .btn:hover {
             background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        #registration-form, #students-list {
+            display: none;
+            padding: 20px;
+            background-color: #222;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -118,27 +168,16 @@
     <section id="events" class="section events">
         <h2>Upcoming Events</h2>
         <div class="event-list">
-            <div class="event">
+            <div class="event" onclick="showForm('Data Science Workshop')">
                 <h3>Data Science Workshop</h3>
                 <p>Join us for a hands-on data science workshop. Register now!</p>
-                <button class="btn" onclick="showForm('Data Science Workshop')">Register</button>
             </div>
-            <div class="event">
+            <div class="event" onclick="showForm('AI & ML Seminar')">
                 <h3>AI & ML Seminar</h3>
                 <p>Explore the world of AI & ML with industry experts. Register today!</p>
-                <button class="btn" onclick="showForm('AI & ML Seminar')">Register</button>
             </div>
         </div>
     </section>
-    <section id="view-registered">
-    <button class="btn" onclick="viewRegisteredStudents()">View Registered Students</button>
-</section>
-
-<!-- Section to display registered students -->
-<div id="students-list" style="display:none; padding: 20px; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); width: 500px; border-radius: 8px;">
-    <button class="btn" style="float: right;" onclick="hideRegisteredStudents()">Close</button>
-    <div id="students-data"></div>
-</div>
 
     <!-- Chapter Info Section -->
     <section id="chapter-info" class="section chapter-info">
@@ -169,7 +208,7 @@
     </section>
 
     <!-- Registration Form -->
-    <div id="registration-form" style="display:none; padding: 20px; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); width: 300px; border-radius: 8px;">
+    <div id="registration-form">
         <h3>Register for Event: <span id="event-name"></span></h3>
         <input class="form-input" type="text" id="name" placeholder="Name">
         <input class="form-input" type="text" id="roll" placeholder="Roll Number">
@@ -179,70 +218,37 @@
         <button class="btn" onclick="submitForm()">Submit</button>
     </div>
 
+    <!-- Students List -->
+    <div id="students-list">
+        <button class="btn" onclick="hideRegisteredStudents()">Close</button>
+        <div id="students-data"></div>
+    </div>
+
     <script>
-        // Global variable to store registered students
-let registeredStudents = [];
+        let registeredStudents = [];
 
-// Show the registration form
-function showForm(eventName) {
-    document.getElementById("event-name").innerText = eventName;
-    document.getElementById("registration-form").style.display = "block";
-}
+        function showForm(eventName) {
+            document.getElementById("event-name").innerText = eventName;
+            document.getElementById("registration-form").style.display = "block";
+        }
 
-// Submit form data and store it in the global variable
-function submitForm() {
-    const name = document.getElementById("name").value;
-    const roll = document.getElementById("roll").value;
-    const branch = document.getElementById("branch").value;
-    const section = document.getElementById("section").value;
-    const phone = document.getElementById("phone").value;
-    const event = document.getElementById("event-name").innerText;
+        function submitForm() {
+            const name = document.getElementById("name").value;
+            const roll = document.getElementById("roll").value;
+            const branch = document.getElementById("branch").value;
+            const section = document.getElementById("section").value;
+            const phone = document.getElementById("phone").value;
+            const event = document.getElementById("event-name").innerText;
 
-    if (name && roll && branch && section && phone) {
-        // Add student data to the global array
-        registeredStudents.push({ name, roll, branch, section, phone, event });
-        alert("Student registered successfully!");
+            if (name && roll && branch && section && phone) {
+                registeredStudents.push({ name, roll, branch, section, phone, event });
+                alert("Registered successfully!");
+                document.getElementById("registration-form").style.display = "none";
+            } else {
+                alert("Please fill all fields.");
+            }
+        }
 
-        // Clear the form inputs
-        document.getElementById("name").value = "";
-        document.getElementById("roll").value = "";
-        document.getElementById("branch").value = "";
-        document.getElementById("section").value = "";
-        document.getElementById("phone").value = "";
-
-        // Hide the form
-        document.getElementById("registration-form").style.display = "none";
-    } else {
-        alert("Please fill all fields.");
-    }
-}
-
-// Function to view all registered students
-function viewRegisteredStudents() {
-    let output = "<h3>Registered Students</h3><ul>";
-    registeredStudents.forEach(student => {
-        output += `
-            <li>
-                Name: ${student.name}, Roll: ${student.roll}, Branch: ${student.branch}, 
-                Section: ${student.section}, Phone: ${student.phone}, Event: ${student.event}
-            </li>`;
-    });
-    output += "</ul>";
-
-    // Display the registered students in a popup or a div
-    const studentsDiv = document.getElementById("students-list");
-    studentsDiv.innerHTML = output;
-    studentsDiv.style.display = "block";
-}
-
-// Hide the registered students list
-function hideRegisteredStudents() {
-    const studentsDiv = document.getElementById("students-list");
-    studentsDiv.style.display = "none";
-}
-        
-
-        // Scroll to specific section
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             section.scrollIntoView({ behavior: "smooth" });
