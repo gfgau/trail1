@@ -130,6 +130,15 @@
             </div>
         </div>
     </section>
+    <section id="view-registered">
+    <button class="btn" onclick="viewRegisteredStudents()">View Registered Students</button>
+</section>
+
+<!-- Section to display registered students -->
+<div id="students-list" style="display:none; padding: 20px; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: fixed; top: 20%; left: 50%; transform: translateX(-50%); width: 500px; border-radius: 8px;">
+    <button class="btn" style="float: right;" onclick="hideRegisteredStudents()">Close</button>
+    <div id="students-data"></div>
+</div>
 
     <!-- Chapter Info Section -->
     <section id="chapter-info" class="section chapter-info">
@@ -155,8 +164,8 @@
     <!-- Contact Section -->
     <section id="contact" class="section contact">
         <h2>Contact Us</h2>
-        <p>Email: datum@anurag.edu</p>
-        <p>Phone: 123-456-7890</p>
+        <p>Email: gfgau@anurag.edu</p>
+        <p>Instagram: gfgausc</p>
     </section>
 
     <!-- Registration Form -->
@@ -171,37 +180,67 @@
     </div>
 
     <script>
-        // Store data in script
-        let eventData = [];
+        // Global variable to store registered students
+let registeredStudents = [];
 
-        // Show the registration form
-        function showForm(eventName) {
-            document.getElementById("event-name").innerText = eventName;
-            document.getElementById("registration-form").style.display = "block";
-        }
+// Show the registration form
+function showForm(eventName) {
+    document.getElementById("event-name").innerText = eventName;
+    document.getElementById("registration-form").style.display = "block";
+}
 
-        // Submit form data and store it
-        function submitForm() {
-            const name = document.getElementById("name").value;
-            const roll = document.getElementById("roll").value;
-            const branch = document.getElementById("branch").value;
-            const section = document.getElementById("section").value;
-            const phone = document.getElementById("phone").value;
+// Submit form data and store it in the global variable
+function submitForm() {
+    const name = document.getElementById("name").value;
+    const roll = document.getElementById("roll").value;
+    const branch = document.getElementById("branch").value;
+    const section = document.getElementById("section").value;
+    const phone = document.getElementById("phone").value;
+    const event = document.getElementById("event-name").innerText;
 
-            if (name && roll && branch && section && phone) {
-                // Store data
-                eventData.push({ name, roll, branch, section, phone });
-                alert("Data stored successfully!");
+    if (name && roll && branch && section && phone) {
+        // Add student data to the global array
+        registeredStudents.push({ name, roll, branch, section, phone, event });
+        alert("Student registered successfully!");
 
-                // Hide the form
-                document.getElementById("registration-form").style.display = "none";
+        // Clear the form inputs
+        document.getElementById("name").value = "";
+        document.getElementById("roll").value = "";
+        document.getElementById("branch").value = "";
+        document.getElementById("section").value = "";
+        document.getElementById("phone").value = "";
 
-                // Redirect to WhatsApp group
-                window.location.href = "https://chat.whatsapp.com/ChIE2jnhhXh23nw566V7j6";
-            } else {
-                alert("Please fill all fields.");
-            }
-        }
+        // Hide the form
+        document.getElementById("registration-form").style.display = "none";
+    } else {
+        alert("Please fill all fields.");
+    }
+}
+
+// Function to view all registered students
+function viewRegisteredStudents() {
+    let output = "<h3>Registered Students</h3><ul>";
+    registeredStudents.forEach(student => {
+        output += `
+            <li>
+                Name: ${student.name}, Roll: ${student.roll}, Branch: ${student.branch}, 
+                Section: ${student.section}, Phone: ${student.phone}, Event: ${student.event}
+            </li>`;
+    });
+    output += "</ul>";
+
+    // Display the registered students in a popup or a div
+    const studentsDiv = document.getElementById("students-list");
+    studentsDiv.innerHTML = output;
+    studentsDiv.style.display = "block";
+}
+
+// Hide the registered students list
+function hideRegisteredStudents() {
+    const studentsDiv = document.getElementById("students-list");
+    studentsDiv.style.display = "none";
+}
+        
 
         // Scroll to specific section
         function scrollToSection(sectionId) {
